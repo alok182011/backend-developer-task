@@ -12,6 +12,7 @@ The task will be assessed on the following factors:
 ## Requirements
 
 The goal of the task is to build a REST API of mini version of Now&Me forum with following features:
+
 – A user should be able to Log In & SignUp using a username / password
 
 – A user should be able to post a thought anonymously & non-anonymously
