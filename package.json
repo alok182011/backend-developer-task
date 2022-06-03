@@ -1,0 +1,32 @@
+{
+  "name": "backend-developer-task",
+  "version": "1.0.0",
+  "description": "This is a task designed to understand the skillset of developers joining Now&Me.\r The task will be assessed on the following factors:",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alok182011/backend-developer-task.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alok182011/backend-developer-task/issues"
+  },
+  "homepage": "https://github.com/alok182011/backend-developer-task#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.5",
+    "nodemon": "^2.0.16",
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0",
+    "yamljs": "^0.3.0"
+  }
+}
