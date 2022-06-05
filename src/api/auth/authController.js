@@ -75,7 +75,7 @@ const login = async (req, res, next) => {
       const response = notFoundResponse("User not found");
       return res.status(404).json(response);
     }
-    console.log(password, user);
+
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       const response = authFailureResponse("Wrong Credentials");

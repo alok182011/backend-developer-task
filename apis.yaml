@@ -138,6 +138,8 @@ paths:
         - thought
       summary: get list thoughts
       description: get list thoughts
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: successful operation
