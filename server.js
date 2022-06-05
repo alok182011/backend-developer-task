@@ -30,18 +30,14 @@ app.use(express.json());
 app.use(cors());
 
 // importing routes
-// const authRoutes = require("./src/api/v1/auth/auth.router");
+const authRoutes = require("./src/api/auth/authRouter");
 // const userRoutes = require("./src/api/v1/users/users.router");
-// const swaggerDocument = YAML.load("./tech-eye.yaml");
+const swaggerDocument = YAML.load("./apis.yaml");
 
 // Using Routes
-// app.use("/auth", authRoutes);
+app.use("/auth", authRoutes);
 // app.use("/user", userRoutes);
-// app.use(
-//   "/api-docs",
-//   swaggerUi.serve,
-//   swaggerUi.setup(swaggerDocument)
-// );
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //default route
 app.use("/", (req, res, next) => {

@@ -1,0 +1,207 @@
+openapi: 3.0.1
+info:
+  title: Backend Task API
+  description: ""
+  version: 1.0.0
+servers:
+  - url: "http://localhost:8000/"
+tags:
+  - name: auth
+    description: APIs related to Auth Module
+  - name: user
+    description: APIs related to User Module
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: to signup a user
+      description: to signup a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - username
+                - password
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "409":
+          description: User already registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/conflictResponse"
+              example:
+                isSuccess: false
+                message: "conflict"
+                code: 409
+                data: {}
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: to signin using password
+      description: to signin using password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usernameOrEmail:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "Not Found"
+                code: 409
+                data: {}
+        "400":
+          description: Wrong credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "bad request"
+                code: 400
+                data: {}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    successResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          oneOf:
+            - type: object
+            - type: array
+    internalFailureResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          type: object
+    notFoundResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          type: object
+    authFailureResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          type: object
+    badRequestResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          type: object
+    conflictResponse:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          type: object

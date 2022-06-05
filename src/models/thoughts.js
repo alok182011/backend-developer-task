@@ -3,22 +3,16 @@ const { model, Schema } = require("mongoose");
 const thoughtSchema = {
   body: String,
   user_id: Schema.Types.ObjectId,
-  username: {
-    type: String,
-    required: false,
-    default: null,
-  },
+  username: String,
   createdAt: String,
+  anoymous: Boolean,
   comments: [
     {
       _id: Schema.Types.ObjectId,
       body: String,
       user_id: Schema.Types.ObjectId,
-      username: {
-        type: String,
-        required: false,
-        default: null,
-      },
+      anoymous: Boolean,
+      username: String,
       createdAt: String,
     },
   ],
