@@ -8,7 +8,6 @@ const thoughtSchema = {
   anoymous: Boolean,
   comments: [
     {
-      _id: Schema.Types.ObjectId,
       body: String,
       user_id: Schema.Types.ObjectId,
       anoymous: Boolean,

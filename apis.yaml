@@ -10,8 +10,10 @@ tags:
     description: APIs related to Auth Module
   - name: user
     description: APIs related to User Module
+  - name: thought
+    description: APIs related to Thought Module
 paths:
-  /auth/register:
+  /api/auth/register:
     post:
       tags:
         - auth
@@ -68,7 +70,7 @@ paths:
                 message: "conflict"
                 code: 409
                 data: {}
-  /auth/login:
+  /api/auth/login:
     post:
       tags:
         - auth
@@ -85,6 +87,202 @@ paths:
                   type: string
                 password:
                   type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "Not Found"
+                code: 409
+                data: {}
+        "400":
+          description: Wrong credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "bad request"
+                code: 400
+                data: {}
+  /api/thought/all:
+    get:
+      tags:
+        - thought
+      summary: get list thoughts
+      description: get list thoughts
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/conflictResponse"
+              example:
+                isSuccess: false
+                message: "not found"
+                code: 404
+                data: null
+        "400":
+          description: Something wrong with token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "token wrong"
+                code: 400
+                data: null
+        "401":
+          description: Not Authorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "auth failure"
+                code: 401
+                data: null
+  /api/thought:
+    get:
+      tags:
+        - thought
+      summary: get a thought
+      description: get a thought
+      parameters:
+        - name: thought_id
+          in: query
+          description: thought_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/conflictResponse"
+              example:
+                isSuccess: false
+                message: "not found"
+                code: 404
+                data: null
+        "400":
+          description: Something wrong with token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "token wrong"
+                code: 400
+                data: null
+        "401":
+          description: Not Authorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "auth failure"
+                code: 401
+                data: null
+    post:
+      tags:
+        - thought
+      summary: to post a thought
+      description: to post a thought
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                user_id:
+                  type: string
+                username:
+                  type: string
+                anoymous:
+                  type: boolean
       responses:
         "200":
           description: successful operation
