@@ -6,7 +6,7 @@ const thoughtSchema = {
   username: String,
   createdAt: String,
   anoymous: Boolean,
-  comments: [
+  replies: [
     {
       body: String,
       user_id: Schema.Types.ObjectId,

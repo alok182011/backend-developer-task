@@ -25,24 +25,26 @@ const getAllThoughts = async (req, res, next) => {
               else: "$username",
             },
           },
-          comments: {
-            $map: {
-              input: "$comments",
-              as: "comment",
-              in: {
-                _id: "$$comment._id",
-                body: "$$comment.body",
-                anoymous: "$$comment.anoymous",
-                username: {
-                  $cond: {
-                    if: { $eq: ["$$comment.anoymous", true] },
-                    then: null,
-                    else: "$$comment.username",
-                  },
-                },
-              },
-            },
+          replies: {
+            $size: "$replies",
+            // $map: {
+            //   input: "$replies",
+            //   as: "reply",
+            //   in: {
+            //     _id: "$$reply._id",
+            //     body: "$$reply.body",
+            //     anoymous: "$$reply.anoymous",
+            //     username: {
+            //       $cond: {
+            //         if: { $eq: ["$$reply.anoymous", true] },
+            //         then: null,
+            //         else: "$$reply.username",
+            //       },
+            //     },
+            //   },
+            // },
           },
+          createdAt: 1,
         },
       },
     ]);
@@ -74,24 +76,26 @@ const getThought = async (req, res, next) => {
               else: "$username",
             },
           },
-          comments: {
+          replies: {
             $map: {
-              input: "$comments",
-              as: "comment",
+              input: "$replies",
+              as: "reply",
               in: {
-                _id: "$$comment._id",
-                body: "$$comment.body",
-                anoymous: "$$comment.anoymous",
+                _id: "$$reply._id",
+                body: "$$reply.body",
+                anoymous: "$$reply.anoymous",
                 username: {
                   $cond: {
-                    if: { $eq: ["$$comment.anoymous", true] },
+                    if: { $eq: ["$$reply.anoymous", true] },
                     then: null,
-                    else: "$$comment.username",
+                    else: "$$reply.username",
                   },
                 },
+                createdAt: "$$reply.createdAt",
               },
             },
           },
+          createdAt: 1,
         },
       },
     ]);
@@ -107,11 +111,12 @@ const getThought = async (req, res, next) => {
 
 const postThought = async (req, res, next) => {
   try {
-    const { body, user_id, username, anoymous } = req.body;
+    const { body, anoymous } = req.body;
+    const { username, id } = req.decodedToken;
 
     let newThought = new Thought({
       body,
-      user_id,
+      user_id: id,
       username,
       anoymous,
       createdAt: new Date().toISOString(),
@@ -127,4 +132,27 @@ const postThought = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllThoughts, postThought, getThought };
+const deleteThought = async (req, res, next) => {
+  try {
+    const { thought_id } = req.body;
+    const { username } = req.decodedToken;
+
+    const thought = await Thought.findById(thought_id);
+
+    if (thought.username === username) {
+      await thought.delete();
+    } else {
+      const response = authFailureResponse("Action Not Allowed!!!");
+      return res.status(401).json(response);
+    }
+
+    const response = successResponse("Thought Deleted!!!");
+    return res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    let response = internalFailureResponse(err);
+    return res.status(500).json(response);
+  }
+};
+
+module.exports = { getAllThoughts, postThought, getThought, deleteThought };

@@ -12,6 +12,8 @@ tags:
     description: APIs related to User Module
   - name: thought
     description: APIs related to Thought Module
+  - name: reply
+    description: APIs related to Reply Module
 paths:
   /api/auth/register:
     post:
@@ -202,6 +204,8 @@ paths:
         - thought
       summary: get a thought
       description: get a thought
+      security:
+        - bearerAuth: []
       parameters:
         - name: thought_id
           in: query
@@ -270,6 +274,8 @@ paths:
         - thought
       summary: to post a thought
       description: to post a thought
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -279,12 +285,198 @@ paths:
               properties:
                 body:
                   type: string
-                user_id:
+                anoymous:
+                  type: boolean
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "Not Found"
+                code: 409
+                data: {}
+        "400":
+          description: Wrong credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "bad request"
+                code: 400
+                data: {}
+    delete:
+      tags:
+        - thought
+      summary: to delete a thought
+      description: to delete a thought
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                thought_id:
                   type: string
-                username:
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "Not Found"
+                code: 409
+                data: {}
+        "400":
+          description: Wrong credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "bad request"
+                code: 400
+                data: {}
+  /api/reply:
+    post:
+      tags:
+        - reply
+      summary: to post a reply
+      description: to post a reply
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
                   type: string
                 anoymous:
                   type: boolean
+                thought_id:
+                  type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "Not Found"
+                code: 409
+                data: {}
+        "400":
+          description: Wrong credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "bad request"
+                code: 400
+                data: {}
+    delete:
+      tags:
+        - reply
+      summary: to delete a reply
+      description: to delete a reply
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                thought_id:
+                  type: string
+                reply_id:
+                  type: string
       responses:
         "200":
           description: successful operation

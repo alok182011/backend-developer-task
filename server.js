@@ -32,12 +32,14 @@ app.use(cors());
 // importing routes
 const authRoutes = require("./src/api/auth/authRouter");
 const thoughtRoutes = require("./src/api/thoughts/thoughtsRouter");
+const replyRoutes = require("./src/api/replies/repliesRouter");
 // const userRoutes = require("./src/api/v1/users/users.router");
 const swaggerDocument = YAML.load("./apis.yaml");
 
 // Using Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/thought", thoughtRoutes);
+app.use("/api/reply", replyRoutes);
 // app.use("/user", userRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
