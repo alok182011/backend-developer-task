@@ -4,6 +4,9 @@ const cors = require("cors");
 const YAML = require("yamljs");
 const swaggerUi = require("swagger-ui-express");
 const mongoose = require("mongoose");
+var fs = require("fs");
+var morgan = require("morgan");
+var path = require("path");
 
 // loading process variables declared in .env file
 require("dotenv").config();
@@ -11,19 +14,12 @@ require("dotenv").config();
 const app = express();
 const httpServer = http.createServer(app);
 
-// mongoDB connection with mongoose
-// const db = async () => {
-//   try {
-//     mongoose.connect(process.env.MONGO_URL, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log("MongoDB connected...");
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-// db();
+var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
+  flags: "a",
+});
+
+// setup the logger
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,14 +29,14 @@ app.use(cors());
 const authRoutes = require("./src/api/auth/authRouter");
 const thoughtRoutes = require("./src/api/thoughts/thoughtsRouter");
 const replyRoutes = require("./src/api/replies/repliesRouter");
-// const userRoutes = require("./src/api/v1/users/users.router");
+const userRoutes = require("./src/api/users/usersRouter");
 const swaggerDocument = YAML.load("./apis.yaml");
 
 // Using Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/thought", thoughtRoutes);
 app.use("/api/reply", replyRoutes);
-// app.use("/user", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //default route

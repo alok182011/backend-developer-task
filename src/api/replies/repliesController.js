@@ -1,14 +1,11 @@
 const Thought = require("../../models/thoughts");
 const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
 
 const {
   successResponse,
   internalFailureResponse,
   notFoundResponse,
   authFailureResponse,
-  badRequestResponse,
-  conflictResponse,
 } = require("../../utility/responses");
 
 const postReply = async (req, res, next) => {

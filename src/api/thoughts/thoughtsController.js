@@ -5,14 +5,12 @@ const ObjectId = mongoose.Types.ObjectId;
 const {
   successResponse,
   internalFailureResponse,
-  notFoundResponse,
   authFailureResponse,
-  badRequestResponse,
-  conflictResponse,
 } = require("../../utility/responses");
 
 const getAllThoughts = async (req, res, next) => {
   try {
+    const { offset, limit } = req.query;
     let thoughts = await Thought.aggregate([
       {
         $project: {
@@ -27,27 +25,14 @@ const getAllThoughts = async (req, res, next) => {
           },
           replies: {
             $size: "$replies",
-            // $map: {
-            //   input: "$replies",
-            //   as: "reply",
-            //   in: {
-            //     _id: "$$reply._id",
-            //     body: "$$reply.body",
-            //     anoymous: "$$reply.anoymous",
-            //     username: {
-            //       $cond: {
-            //         if: { $eq: ["$$reply.anoymous", true] },
-            //         then: null,
-            //         else: "$$reply.username",
-            //       },
-            //     },
-            //   },
-            // },
           },
           createdAt: 1,
         },
       },
-    ]);
+    ])
+      .sort({ createdAt: -1 })
+      .skip(parseInt(offset))
+      .limit(parseInt(limit));
 
     const response = successResponse(thoughts);
     return res.status(200).json(response);

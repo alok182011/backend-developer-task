@@ -142,6 +142,19 @@ paths:
       description: get list thoughts
       security:
         - bearerAuth: []
+      parameters:
+        - name: offset
+          in: query
+          description: offset
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit
+          required: true
+          schema:
+            type: integer
       responses:
         "200":
           description: successful operation
@@ -522,6 +535,160 @@ paths:
                 message: "bad request"
                 code: 400
                 data: {}
+  /api/user/:
+    get:
+      tags:
+        - user
+      summary: get user info
+      description: get user info
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: query
+          description: username
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/conflictResponse"
+              example:
+                isSuccess: false
+                message: "not found"
+                code: 404
+                data: null
+        "400":
+          description: Something wrong with token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "token wrong"
+                code: 400
+                data: null
+        "401":
+          description: Not Authorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "auth failure"
+                code: 401
+                data: null
+  /api/user/thoughts:
+    get:
+      tags:
+        - user
+      summary: get user thoughts
+      description: get user thoughts
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: query
+          description: username
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: offset
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: limit
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/successResponse"
+              example:
+                isSuccess: true
+                message: "success"
+                code: 200
+                data: {}
+        "500":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internalFailureResponse"
+              example:
+                isSuccess: false
+                message: "internal server error"
+                code: 500
+                data: {}
+        "404":
+          description: User Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/conflictResponse"
+              example:
+                isSuccess: false
+                message: "not found"
+                code: 404
+                data: null
+        "400":
+          description: Something wrong with token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badRequestResponse"
+              example:
+                isSuccess: false
+                message: "token wrong"
+                code: 400
+                data: null
+        "401":
+          description: Not Authorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/authFailureResponse"
+              example:
+                isSuccess: false
+                message: "auth failure"
+                code: 401
+                data: null
 components:
   securitySchemes:
     bearerAuth:

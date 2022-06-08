@@ -8,7 +8,6 @@ const {
   internalFailureResponse,
   notFoundResponse,
   authFailureResponse,
-  badRequestResponse,
   conflictResponse,
 } = require("../../utility/responses");
 
