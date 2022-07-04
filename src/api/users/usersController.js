@@ -51,6 +51,7 @@ const getUsersInfo = async (req, res, next) => {
       { $match: { username: username } },
       {
         $project: {
+          _id: 0,
           username: 1,
           createdAt: 1,
         },

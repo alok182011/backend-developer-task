@@ -16,6 +16,13 @@ const getAllThoughts = async (req, res, next) => {
         $project: {
           body: 1,
           anoymous: 1,
+          user_id: {
+            $cond: {
+              if: { $eq: ["$anoymous", true] },
+              then: "$user_id",
+              else: null,
+            },
+          },
           username: {
             $cond: {
               if: { $eq: ["$anoymous", true] },
