@@ -75,6 +75,13 @@ const getThought = async (req, res, next) => {
               in: {
                 _id: "$$reply._id",
                 body: "$$reply.body",
+                user_id: {
+                  $cond: {
+                    if: { $eq: ["$$reply.anoymous", true] },
+                    then: "$$reply.user_id",
+                    else: null,
+                  },
+                },
                 anoymous: "$$reply.anoymous",
                 username: {
                   $cond: {
