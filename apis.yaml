@@ -4,6 +4,7 @@ info:
   description: ""
   version: 1.0.0
 servers:
+  - url: "https://backend-task-now-and-me.herokuapp.com/"
   - url: "http://localhost:8000/"
 tags:
   - name: auth
